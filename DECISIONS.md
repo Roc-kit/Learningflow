@@ -100,3 +100,14 @@ Learningflow Server、MCP、Skill、Web、Worker、通知和外部工具都是 C
 Assessment Skill、Review Skill 等名称描述的是稳定的教学流程、工具使用规则和 Evidence 语义，不预设必须由某个特定 ChatGPT Skill / Plugin / MCP API 实现。当前可以先表现为提示协议与工具 Contract，后续按实际宿主能力落地。
 
 原因：教学业务语义应长期稳定，而 ChatGPT、Plugin、MCP 和其他 Agent 宿主能力会持续变化。Learningflow 不应因为某一种当前产品形态变化而重写核心教学流程。
+
+## D012：Transcript 是一等输入，实时 MCP 不是 Evidence 入库的硬前提
+
+- 日期：2026-09-12
+- 状态：有效
+
+Learningflow 同时支持两条 Evidence 进入路径：教学过程中通过 MCP / Tool 实时写入，以及教学结束后从完整 Transcript 中提取并写入。Transcript Adapter 只负责把不同宿主的可见聊天记录标准化；“哪一段算学习证据、如何评价”由后续分析阶段完成。
+
+原因：ChatGPT、Codex 和其他宿主对工具调用、语音、会话导出和移动端能力的支持会变化，但完整聊天记录通常更容易取得。把 Transcript 作为一等输入，可以先验证教学与 Evidence 价值，再逐步降低实时写入延迟，而不会把产品成败绑在某一种 MCP 接入方式上。
+
+Codex 作为 Stage 0 第一宿主：它本机已有可追溯会话文件，并且能够直接执行 Learningflow CLI / MCP。ChatGPT Web 后续通过 MCP、浏览器导出或其他合规同步方式接入同一 Transcript Contract。

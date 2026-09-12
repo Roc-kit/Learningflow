@@ -66,9 +66,9 @@ uv run python -m learningflow.mcp_server
 
 MCP 地址为 `http://127.0.0.1:8000/mcp`。当前 HTTP 模式只用于本机集成测试；在鉴权、数据范围和部署侧 transport security 完成前，不把真实学生数据暴露到公网。
 
-### 当前 Plus 的 M0 Bridge
+### M0 Bridge 与 Codex-first
 
-当前个人 ChatGPT Plus 没有完整可写 MCP App 入口，所以 M0 不强行搭公网隧道。先用同一套业务 Contract 做最薄的人工 Bridge：
+当前 ChatGPT 环境已经实际能够调用 DevSpace 这类 MCP / 插件工具，因此 Learningflow 不再按套餐名称预判 MCP 是否可用；自建 MCP 以后按真实 UI 与端到端工具调用验收。与此同时保留最低依赖的人工 Bridge：
 
 ```bash
 # 把有限学习 Context 输出成可直接粘贴到 ChatGPT 的 packet
@@ -83,16 +83,47 @@ uv run learningflow-admin record-packet --file evidence.json
 
 `record-packet` 允许 Evidence Packet 省略 `idempotency_key`，Bridge 会根据包内容生成稳定 key，避免重复粘贴形成重复 Evidence。
 
+Stage 0 也可以完全先在 Codex 中验证，不依赖 ChatGPT Web 接入：
+
+```bash
+# 查看本机 Codex 会话
+uv run learningflow-admin codex-sessions --limit 20
+
+# 导出一个标准化会话；只包含可见 user / assistant 文本
+uv run learningflow-admin codex-transcript --latest
+
+# 将 Codex 会话同步到本机 data/transcripts/codex/（该目录不进 Git）
+uv run learningflow-admin sync-codex --limit 20
+
+# 用 Codex 语义分析一段 Transcript，默认只生成待审 Evidence Packet
+uv run learningflow-admin compile-codex \
+  --session-id <session_id> \
+  --student-id child-test \
+  --mode test
+
+# 明确确认后才写入 Learningflow
+uv run learningflow-admin compile-codex \
+  --session-id <session_id> \
+  --student-id child-test \
+  --mode test \
+  --write
+```
+
+标准化格式为 `learningflow.transcript.v1`。后续 ChatGPT Web、浏览器同步器或其他 Agent 只需要实现同一个 Transcript Adapter，不改 Evidence 内核。
+
+`compile-codex` 不允许模型重新生成孩子的原回答。Codex 只负责选择 `prompt_message_id / response_message_id` 并给出评价；Learningflow 再按消息 ID 从 Transcript 原样恢复题干和回答。默认 dry-run，只有显式 `--write` 才持久化。
+
+仓库同时提供 `codex/skills/learningflow-tutor/SKILL.md`。安装到 Codex Skills 后，Codex 可以直接读取 Learningflow Context、执行一次一题的短验证，并通过本地 CLI 保存 Evidence。
+
 下一步优先验证：
 
 ```text
-context-packet
-→ ChatGPT 直接教学
+Codex / ChatGPT 教学
 → Teaching / Assessment Protocol 进入短验证
-→ 孩子直接用文字 / 语音回答
-→ ChatGPT 输出 Evidence Packet
-→ record-packet 写回 Learning Evidence
-→ 下一次 context-packet 能读到这次事实
+→ 孩子直接回答
+→ 实时 Tool 写入，或会话结束后由 Transcript Compiler 提取
+→ Learning Evidence
+→ 下一次 Context 能读到这次事实
 ```
 
 普通问答默认不切网页。M0 再额外选择一个确实需要专用 UI 的 Activity，验证 Web 作为按需 Adapter 能顺利回到当前教学上下文。

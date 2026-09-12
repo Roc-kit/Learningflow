@@ -42,9 +42,15 @@ Stage 0：正式建仓 + 产品基线 + 最小闭环验证准备
 - 已通过自动测试验证 Evidence 写入/读取、Test/Real 边界、summary 不冒充逐字证据、答案 key/rubric 不进入 learner-safe Context；
 - 已通过本机 Streamable HTTP 做真实 MCP Client 往返验证；测试后服务已关闭，测试端口不属于项目固定配置；
 - 当前 Stage 0 本地事实库使用 SQLite，只用于最快验证 ChatGPT-first Contract；PostgreSQL 仍是后续长期运行候选，不把 SQLite 视为正式生产选型；
-- 已核对 2026-09-12 OpenAI 当前产品限制：个人 Plus 不能新建 GPT，也没有完整可写 MCP App 入口，因此当前不搭无意义公网 MCP 隧道；
-- 已增加 Plus 可直接使用的 Manual Bridge：`context-packet` 将有限 Context 带入 ChatGPT，`record-packet` 将 ChatGPT 生成的 Evidence Packet 写回 Learningflow；Teaching Protocol 模板位于 `chatgpt/PROJECT_INSTRUCTIONS.md`；
+- 当前 ChatGPT 环境已经实际具备 MCP / 插件工具调用能力，DevSpace 即为已验证实例；Learningflow 自建 MCP 的具体连接方式以后按账号真实 UI、连接权限与端到端工具调用结果验收，不再按套餐名称预判可用性；
+- Manual Bridge 仍作为最低依赖 fallback：`context-packet` 将有限 Context 带入 ChatGPT，`record-packet` 将 ChatGPT 生成的 Evidence Packet 写回 Learningflow；Teaching Protocol 模板位于 `chatgpt/PROJECT_INSTRUCTIONS.md`；
 - 已完成 Manual Bridge 命令行真实往返验证：空 Context → 写入一条 `batch_verbatim` Evidence → 再次按 focus 查询能够读回原回答与 Assessment；
+- 已实现 `CodexTranscriptAdapter`：只读取 Codex rollout 中可见的 user / assistant 文本，确定性排除 developer message、hidden reasoning、tool call 与 tool output；
+- 已真实同步本机约 100 个 Codex 会话到忽略 Git 的 `data/transcripts/codex/`，统一格式为 `learningflow.transcript.v1`；再次全量同步全部 `unchanged`，同步路径已验证幂等；
+- 已实现 Codex Evidence Compiler：模型只选择题目/回答的 message ID 并给出评价，程序按 ID 从 Transcript 原样恢复题干与孩子回答；默认 dry-run，显式 `--write` 才持久化；
+- 已用合成英语短验证做真实 `codex exec + Structured Output` smoke：成功识别 `likes` 为错误、后续 `like` 为正确，同时 Evidence Packet 保留原始消息文本；
+- 已增加 Codex-first 的 `learningflow-tutor` Skill，并安装到本机 `~/.codex/skills/learningflow-tutor/`；Codex 可以直接读取 Learningflow Context、按 Teaching Protocol 教学并写回 Evidence；
+- 当前自动测试 15 项通过，覆盖 Learning Kernel、MCP、Manual Bridge、Transcript Adapter 与 Evidence Compiler 的关键边界；
 - 尚未创建通用前端、OCR、Learner State Compiler、Worker、正式公网部署或 ChatGPT 原生可写 MCP 连接；FastAPI / React / PostgreSQL 等未实现部分仍不是运行事实。
 
 ## 3. 当前已经确认的产品原则
@@ -115,20 +121,26 @@ docs/archive/      # 未来确有追溯价值的已失效正式文档
 优先顺序固定为：
 
 ```text
-1. 用当前 Plus 真正可用的 Manual Bridge 跑第一次 M0
-   → `context-packet` 把有限 Context 带入 ChatGPT
-   → ChatGPT Project / 普通对话直接教学与出题
-   → Teaching / Assessment Protocol 一次一题、先答后评
-   → 文字 / 语音作答
-   → ChatGPT 输出 Evidence Packet
-   → `record-packet` 写回结构化 Evidence
+1. 先用 Codex 跑第一次真实 M0
+   → `learningflow-tutor` 读取有限 Context
+   → Codex 按 Teaching / Assessment Protocol 教学
+   → 孩子直接文字作答，先验证教学与 Evidence 语义
+   → Codex 直接写回结构化 Evidence
+   → 用下一轮 Context 验证历史 Evidence 是否真正影响教学
 
-2. 用真实四年级英语内容实测文字与语音路径
-   iPhone / iPad / Android / 笔记本中至少完成代表性组合
+2. 同时验证 Transcript 路线
+   → Codex 本地 rollout 自动标准化
+   → Transcript 分析 / Evidence 编译
+   → 与实时写入结果对照
 
-3. 只有遇到 ChatGPT 本身不适合的活动，再实现第一个按需 Web Activity；不因为当前 Plus 缺 MCP 就重做聊天壳
+3. 再接 ChatGPT Web / App
+   → 优先 MCP / Plugin 直接调用
+   → 无法实时接入时使用聊天导出 / 同步器进入同一 Transcript Contract
+   → 语音路径只要求能取得可靠转写或会话记录，不要求先取得原始音频
 
-4. 根据 M0 结果冻结首版长期存储与部署方式，再进入 M1：任务 + 学生隔离 + 作业照片 + OCR + 最小课程结构
+4. 只有遇到宿主本身不适合的活动，再实现第一个按需 Web Activity
+
+5. 根据 M0 结果冻结首版长期存储与部署方式，再进入 M1：任务 + 学生隔离 + 作业照片 + OCR + 最小课程结构
 ```
 
 当前不先搭空微服务、不先做完整知识图谱、不先建设固定外部连接器、不先实现复杂 mastery 算法。
