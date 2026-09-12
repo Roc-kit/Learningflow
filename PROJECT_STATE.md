@@ -33,6 +33,8 @@ Stage 0：正式建仓 + 产品基线 + 最小闭环验证准备
 - 已将两份建仓前设计收口为当前稳定入口：
   - `docs/product/真实学习流程.md`
   - `docs/architecture/系统架构.md`
+- 已完成 M0 最小闭环实施基线：`docs/architecture/M0最小闭环设计.md`；该基线吸收 Tutor MCP、DeepTutor、OpenLingo、Aristotle、LSL 的可复用边界，但不选择其中任何项目作为母项目；
+- M0 已明确只实现结构化网页题、持久草稿/交卷、版本化判分、ResultPack 与 ChatGPT 交接；不在 M0 引入 LearnerState、BKT、FSRS、知识图谱或复杂诊断；
 - 尚未创建正式前端、服务端、数据库 schema、MCP Server、Worker 或部署环境；
 - FastAPI / React / PostgreSQL 等仍是当前架构建议，尚未通过实现验证固化为运行事实。
 
@@ -79,6 +81,7 @@ docs/product/真实学习流程.md
 
 ```text
 docs/architecture/系统架构.md
+docs/architecture/M0最小闭环设计.md
 ```
 
 工程治理：
@@ -102,14 +105,14 @@ docs/archive/      # 未来确有追溯价值的已失效正式文档
 优先顺序固定为：
 
 ```text
-1. M0：最小真实学习闭环原型
-   ChatGPT 语音/文字教学材料
-   → 3 道网页题
-   → 草稿保存 / 交卷
-   → 结构化结果包
-   → 回到同一教学上下文继续讲解
+1. 按 `docs/architecture/M0最小闭环设计.md` 实现 M0 原型
+   → 结构化 Exercise Contract
+   → 服务端持久 draft / submit
+   → learner-safe projection
+   → ResultPack
+   → MCP + 复制 fallback
 
-2. 实测单设备与双设备交接
+2. 用真实四年级英语内容实测单设备与双设备交接
    iPhone / iPad / Android / 笔记本中至少完成代表性组合
 
 3. 根据 M0 结果冻结首版技术栈与最小数据模型
