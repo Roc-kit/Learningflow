@@ -1,0 +1,2 @@
+[console_scripts]
+learningflow-admin = learningflow.admin:main

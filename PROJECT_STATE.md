@@ -37,8 +37,12 @@ Stage 0：正式建仓 + 产品基线 + 最小闭环验证准备
 - 已确认 ChatGPT 是孩子侧主教学界面；Assessment Skill 约束短验证流程，Learningflow MCP/Server 保存长期事实，Web 只按需提供图片、复杂交互、录音等专用能力；
 - 已形成最高层架构定位 `docs/architecture/长期学习操作系统.md`：Learningflow 以 `Context → ChatGPT → Evidence` 为核心数据回路，Teaching Skill 是逻辑协议，MCP/Tools 是长期 Runtime 的受控业务调用层；
 - M0 不引入 LearnerState、BKT、FSRS、知识图谱或复杂诊断；
-- 尚未创建正式前端、服务端、数据库 schema、MCP Server、Worker 或部署环境；
-- FastAPI / React / PostgreSQL 等仍是当前架构建议，尚未通过实现验证固化为运行事实。
+- 已创建第一个可运行 M0 Learning OS 内核：Python 包、SQLite Stage 0 本地事实库、官方 MCP Python SDK v2 Server；
+- 已实现并验证两个核心 MCP 工具：`get_learning_context` 与 `record_assessment_run`；后者支持 `live / batch_verbatim / summary` 证据语义与幂等写入；
+- 已通过自动测试验证 Evidence 写入/读取、Test/Real 边界、summary 不冒充逐字证据、答案 key/rubric 不进入 learner-safe Context；
+- 已通过本机 Streamable HTTP 做真实 MCP Client 往返验证；测试后服务已关闭，测试端口不属于项目固定配置；
+- 当前 Stage 0 本地事实库使用 SQLite，只用于最快验证 ChatGPT-first Contract；PostgreSQL 仍是后续长期运行候选，不把 SQLite 视为正式生产选型；
+- 尚未创建通用前端、OCR、Learner State Compiler、Worker、正式公网部署或真实 ChatGPT 连接；FastAPI / React / PostgreSQL 等未实现部分仍不是运行事实。
 
 ## 3. 当前已经确认的产品原则
 
@@ -108,19 +112,19 @@ docs/archive/      # 未来确有追溯价值的已失效正式文档
 优先顺序固定为：
 
 ```text
-1. 按 `docs/architecture/M0最小闭环设计.md` 实现 M0 原型
+1. 把当前本地 MCP 内核接入一个真实 ChatGPT 测试入口
+   → `get_learning_context`
    → ChatGPT 内直接教学与出题
-   → Assessment Skill 一次一题、先答后评
+   → Teaching / Assessment Protocol 一次一题、先答后评
    → 文字 / 语音作答
-   → MCP 保存结构化 Learning Evidence
-   → Web 仅验证一个按需专用交互场景
+   → `record_assessment_run` 批量写回结构化 Evidence
 
-2. 用真实四年级英语内容实测单设备与双设备交接
+2. 用真实四年级英语内容实测文字与语音路径
    iPhone / iPad / Android / 笔记本中至少完成代表性组合
 
-3. 根据 M0 结果冻结首版技术栈与最小数据模型
+3. 只有遇到 ChatGPT 本身不适合的活动，再实现第一个按需 Web Activity
 
-4. 再进入 M1：任务 + 学生隔离 + 作业照片 + OCR + 最小课程结构
+4. 根据 M0 结果冻结首版长期存储与部署方式，再进入 M1：任务 + 学生隔离 + 作业照片 + OCR + 最小课程结构
 ```
 
 当前不先搭空微服务、不先做完整知识图谱、不先建设固定外部连接器、不先实现复杂 mastery 算法。

@@ -32,15 +32,48 @@ Learning Context → ChatGPT → Learning Evidence
 
 项目于 2026-09-12 正式建仓，目前处于 **Stage 0：产品基线与最小闭环验证准备**。
 
-当前没有正式应用代码。已有设计文档属于产品/架构工作基线，不代表对应能力已经实现。
+已经有第一个可运行的 Learning OS 内核：Python 包、Stage 0 SQLite 本地事实库，以及基于官方 MCP Python SDK v2 的两个核心工具：
+
+```text
+get_learning_context
+record_assessment_run
+```
+
+它们分别负责把有限、相关的学习上下文交给 ChatGPT，以及把一小段真实问答可靠写回长期系统。当前还没有通用 Web 应用、OCR、Learner State Compiler 或后台 Worker。
+
+### 本地运行
+
+```bash
+uv sync
+
+# 只创建合成测试学生，不把真实学生资料写进 Git
+uv run learningflow-admin ensure-student \
+  --id child-test \
+  --name 测试学生 \
+  --mode test
+
+# 默认 stdio MCP
+uv run python -m learningflow.mcp_server
+```
+
+本地需要 Streamable HTTP 时：
+
+```bash
+LEARNINGFLOW_MCP_TRANSPORT=streamable-http \
+LEARNINGFLOW_MCP_PORT=8000 \
+uv run python -m learningflow.mcp_server
+```
+
+MCP 地址为 `http://127.0.0.1:8000/mcp`。当前 HTTP 模式只用于本机集成测试；在鉴权、数据范围和部署侧 transport security 完成前，不把真实学生数据暴露到公网。
 
 下一步优先验证：
 
 ```text
-ChatGPT 直接教学
-→ Assessment Skill 进入短验证
+get_learning_context
+→ ChatGPT 直接教学
+→ Teaching / Assessment Protocol 进入短验证
 → 孩子直接用文字 / 语音回答
-→ MCP 保存关键 Learning Evidence
+→ record_assessment_run 保存关键 Learning Evidence
 → ChatGPT 根据这次具体回答继续教学
 ```
 
