@@ -42,7 +42,10 @@ Stage 0：正式建仓 + 产品基线 + 最小闭环验证准备
 - 已通过自动测试验证 Evidence 写入/读取、Test/Real 边界、summary 不冒充逐字证据、答案 key/rubric 不进入 learner-safe Context；
 - 已通过本机 Streamable HTTP 做真实 MCP Client 往返验证；测试后服务已关闭，测试端口不属于项目固定配置；
 - 当前 Stage 0 本地事实库使用 SQLite，只用于最快验证 ChatGPT-first Contract；PostgreSQL 仍是后续长期运行候选，不把 SQLite 视为正式生产选型；
-- 尚未创建通用前端、OCR、Learner State Compiler、Worker、正式公网部署或真实 ChatGPT 连接；FastAPI / React / PostgreSQL 等未实现部分仍不是运行事实。
+- 已核对 2026-09-12 OpenAI 当前产品限制：个人 Plus 不能新建 GPT，也没有完整可写 MCP App 入口，因此当前不搭无意义公网 MCP 隧道；
+- 已增加 Plus 可直接使用的 Manual Bridge：`context-packet` 将有限 Context 带入 ChatGPT，`record-packet` 将 ChatGPT 生成的 Evidence Packet 写回 Learningflow；Teaching Protocol 模板位于 `chatgpt/PROJECT_INSTRUCTIONS.md`；
+- 已完成 Manual Bridge 命令行真实往返验证：空 Context → 写入一条 `batch_verbatim` Evidence → 再次按 focus 查询能够读回原回答与 Assessment；
+- 尚未创建通用前端、OCR、Learner State Compiler、Worker、正式公网部署或 ChatGPT 原生可写 MCP 连接；FastAPI / React / PostgreSQL 等未实现部分仍不是运行事实。
 
 ## 3. 当前已经确认的产品原则
 
@@ -112,17 +115,18 @@ docs/archive/      # 未来确有追溯价值的已失效正式文档
 优先顺序固定为：
 
 ```text
-1. 把当前本地 MCP 内核接入一个真实 ChatGPT 测试入口
-   → `get_learning_context`
-   → ChatGPT 内直接教学与出题
+1. 用当前 Plus 真正可用的 Manual Bridge 跑第一次 M0
+   → `context-packet` 把有限 Context 带入 ChatGPT
+   → ChatGPT Project / 普通对话直接教学与出题
    → Teaching / Assessment Protocol 一次一题、先答后评
    → 文字 / 语音作答
-   → `record_assessment_run` 批量写回结构化 Evidence
+   → ChatGPT 输出 Evidence Packet
+   → `record-packet` 写回结构化 Evidence
 
 2. 用真实四年级英语内容实测文字与语音路径
    iPhone / iPad / Android / 笔记本中至少完成代表性组合
 
-3. 只有遇到 ChatGPT 本身不适合的活动，再实现第一个按需 Web Activity
+3. 只有遇到 ChatGPT 本身不适合的活动，再实现第一个按需 Web Activity；不因为当前 Plus 缺 MCP 就重做聊天壳
 
 4. 根据 M0 结果冻结首版长期存储与部署方式，再进入 M1：任务 + 学生隔离 + 作业照片 + OCR + 最小课程结构
 ```

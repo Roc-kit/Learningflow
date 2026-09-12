@@ -32,6 +32,7 @@
 | ChatGPT-first 总体定位、Context/Evidence、Skill/MCP 边界 | `docs/architecture/长期学习操作系统.md` |
 | 当前系统架构、数据与模块建议 | `docs/architecture/系统架构.md` |
 | 当前 M0 最小实现边界 | `docs/architecture/M0最小闭环设计.md` |
+| ChatGPT Project 当前教学协议模板 | `chatgpt/PROJECT_INSTRUCTIONS.md` |
 | 文档职责、拆分和归档 | `docs/development/文档治理.md` |
 | Git 提交与分支规则 | `docs/development/Git工作流.md` |
 | Milestone / Issue / Discussion / 状态收口 | `docs/development/项目管理.md` |

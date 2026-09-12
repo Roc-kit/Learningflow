@@ -6,6 +6,7 @@
 
 - [`product/产品基线.md`](product/产品基线.md)：产品目标、首版范围、角色和不可混淆的业务概念。
 - [`product/真实学习流程.md`](product/真实学习流程.md)：ChatGPT 作为主教学入口，Skill / MCP / Web 按需扩展的真实日常流程与 M0 验证路径。
+- [`../chatgpt/PROJECT_INSTRUCTIONS.md`](../chatgpt/PROJECT_INSTRUCTIONS.md)：当前 Plus 路径可直接放入 ChatGPT Project 的 Teaching Protocol 模板。
 
 ## 架构
 

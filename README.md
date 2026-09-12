@@ -66,15 +66,33 @@ uv run python -m learningflow.mcp_server
 
 MCP 地址为 `http://127.0.0.1:8000/mcp`。当前 HTTP 模式只用于本机集成测试；在鉴权、数据范围和部署侧 transport security 完成前，不把真实学生数据暴露到公网。
 
+### 当前 Plus 的 M0 Bridge
+
+当前个人 ChatGPT Plus 没有完整可写 MCP App 入口，所以 M0 不强行搭公网隧道。先用同一套业务 Contract 做最薄的人工 Bridge：
+
+```bash
+# 把有限学习 Context 输出成可直接粘贴到 ChatGPT 的 packet
+uv run learningflow-admin context-packet \
+  --id child-test \
+  --mode test \
+  --focus "一般现在时"
+
+# ChatGPT 按 chatgpt/PROJECT_INSTRUCTIONS.md 输出 Evidence JSON 后写回
+uv run learningflow-admin record-packet --file evidence.json
+```
+
+`record-packet` 允许 Evidence Packet 省略 `idempotency_key`，Bridge 会根据包内容生成稳定 key，避免重复粘贴形成重复 Evidence。
+
 下一步优先验证：
 
 ```text
-get_learning_context
+context-packet
 → ChatGPT 直接教学
 → Teaching / Assessment Protocol 进入短验证
 → 孩子直接用文字 / 语音回答
-→ record_assessment_run 保存关键 Learning Evidence
-→ ChatGPT 根据这次具体回答继续教学
+→ ChatGPT 输出 Evidence Packet
+→ record-packet 写回 Learning Evidence
+→ 下一次 context-packet 能读到这次事实
 ```
 
 普通问答默认不切网页。M0 再额外选择一个确实需要专用 UI 的 Activity，验证 Web 作为按需 Adapter 能顺利回到当前教学上下文。
