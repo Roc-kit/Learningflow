@@ -1,6 +1,12 @@
 # Learningflow
 
-Learningflow 是一个面向家庭日常学习的长期运行系统。首个落地学科是小学英语，但核心目标不是做一套“英语题库”，而是持续运行下面这条闭环：
+Learningflow 是一个服务于 ChatGPT 的长期学习运行系统。它不是再做一个 AI 学习产品，而是给 ChatGPT 补上单次对话不擅长长期承担的能力：学习事实、Evidence、状态、复习、调度、教学反思和专用交互。
+
+一句话定位：
+
+> **Learningflow = ChatGPT 的长期学习操作系统。**
+
+首个落地学科是小学英语，但核心目标不是做一套“英语题库”，而是持续运行下面这条闭环：
 
 ```text
 任务 → 作答 → 证据 → 诊断 → 教学 → 再练 → 延迟复测 → 学习状态更新
@@ -8,13 +14,19 @@ Learningflow 是一个面向家庭日常学习的长期运行系统。首个落�
                                教学反思与方法迭代
 ```
 
-当前产品形态采用：
+当前产品边界：
 
-- **ChatGPT App**：主要承担语音教学、追问、解释和互动；
-- **Learningflow Web**：承担作业上传、AI 追加练习、结构化作答、家长查看与维护；
-- **Learning Server**：承担长期记录、调度、复习、通知、报告与可追溯状态；
-- **PostgreSQL / 媒体存储**：保存长期学习事实与作业图片等证据；
-- **MCP / API**：让 ChatGPT、Codex 和其他 Agent 在受控范围内读取和写入学习数据。
+- **ChatGPT**：孩子侧主教学 Runtime，承担文字/语音教学、追问、出题、解释和教学决策；
+- **Teaching Skills**：只在需要稳定流程纪律时约束 ChatGPT，例如一次一题、先答后评、区分提示前后作答；
+- **Learningflow Server / MCP**：承担长期 Context、Evidence、状态、复习、调度、通知、报告与可追溯事实；
+- **Learningflow Web**：不是默认学习入口，只在照片、复杂交互、录音、长文本或受控测验等 ChatGPT 本身不适合的场景按需出现；
+- **PostgreSQL / 媒体存储**：保存长期学习事实与媒体证据。
+
+最核心的数据方向是：
+
+```text
+Learning Context → ChatGPT → Learning Evidence
+```
 
 ## 当前阶段
 
@@ -25,14 +37,14 @@ Learningflow 是一个面向家庭日常学习的长期运行系统。首个落�
 下一步优先验证：
 
 ```text
-语音讲解
-→ 3 道网页题
-→ 结构化提交
-→ 将真实结果交回同一教学上下文
-→ 继续教学
+ChatGPT 直接教学
+→ Assessment Skill 进入短验证
+→ 孩子直接用文字 / 语音回答
+→ MCP 保存关键 Learning Evidence
+→ ChatGPT 根据这次具体回答继续教学
 ```
 
-先证明孩子实际使用时这段交接足够顺畅，再进入完整 M1/M2/M3 实现。
+普通问答默认不切网页。M0 再额外选择一个确实需要专用 UI 的 Activity，验证 Web 作为按需 Adapter 能顺利回到当前教学上下文。
 
 ## 文档入口
 

@@ -91,3 +91,12 @@ Learningflow 采用 Server-first 方向。任务状态、学习证据、复习�
 Learningflow Server、MCP、Skill、Web、Worker、通知和外部工具都是 ChatGPT 的能力扩展层：提供长期事实、工作流、专用采集、后台调度和外部能力。除家长管理、后台维护等天然不属于教学对话的场景外，不另外建设一套与 ChatGPT 平行的“主 AI 老师”。
 
 原因：减少重复 UI、重复 Agent 和上下文搬运，把工程投入集中到 ChatGPT 单靠会话做不好的部分：长期记忆、可靠事实、学习状态、异步任务、专用输入和可恢复运行。
+
+## D011：Teaching Skill 是逻辑教学协议，不绑定具体宿主产品形态
+
+- 日期：2026-09-12
+- 状态：有效
+
+Assessment Skill、Review Skill 等名称描述的是稳定的教学流程、工具使用规则和 Evidence 语义，不预设必须由某个特定 ChatGPT Skill / Plugin / MCP API 实现。当前可以先表现为提示协议与工具 Contract，后续按实际宿主能力落地。
+
+原因：教学业务语义应长期稳定，而 ChatGPT、Plugin、MCP 和其他 Agent 宿主能力会持续变化。Learningflow 不应因为某一种当前产品形态变化而重写核心教学流程。

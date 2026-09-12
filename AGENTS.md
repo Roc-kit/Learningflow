@@ -29,7 +29,9 @@
 | 长期关键决策及原因 | `DECISIONS.md` |
 | 产品范围、用户、首版边界 | `docs/product/产品基线.md` |
 | 真实日常学习与语音/网页交接 | `docs/product/真实学习流程.md` |
+| ChatGPT-first 总体定位、Context/Evidence、Skill/MCP 边界 | `docs/architecture/长期学习操作系统.md` |
 | 当前系统架构、数据与模块建议 | `docs/architecture/系统架构.md` |
+| 当前 M0 最小实现边界 | `docs/architecture/M0最小闭环设计.md` |
 | 文档职责、拆分和归档 | `docs/development/文档治理.md` |
 | Git 提交与分支规则 | `docs/development/Git工作流.md` |
 | Milestone / Issue / Discussion / 状态收口 | `docs/development/项目管理.md` |

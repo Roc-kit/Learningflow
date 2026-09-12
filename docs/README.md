@@ -9,6 +9,7 @@
 
 ## 架构
 
+- [`architecture/长期学习操作系统.md`](architecture/长期学习操作系统.md)：最高层架构定位；定义 Context → ChatGPT → Evidence、Teaching Skill、MCP 系统调用层和按需 Activity Adapter。
 - [`architecture/系统架构.md`](architecture/系统架构.md)：当前完整软件框架工作基线，包括模块、数据、运行流程、M1/M2/M3 建议。
 - [`architecture/M0最小闭环设计.md`](architecture/M0最小闭环设计.md)：Stage 0 当前实施基线；定义 ChatGPT 直接问答、Assessment Skill、MCP Evidence 保存与可选 Web，不引入 Learner State 算法。
 

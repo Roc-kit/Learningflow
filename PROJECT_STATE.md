@@ -35,6 +35,7 @@ Stage 0：正式建仓 + 产品基线 + 最小闭环验证准备
   - `docs/architecture/系统架构.md`
 - 已完成 M0 最小闭环实施基线：`docs/architecture/M0最小闭环设计.md`；当前基线为 ChatGPT-first，不选择任何开源项目作为母项目；
 - 已确认 ChatGPT 是孩子侧主教学界面；Assessment Skill 约束短验证流程，Learningflow MCP/Server 保存长期事实，Web 只按需提供图片、复杂交互、录音等专用能力；
+- 已形成最高层架构定位 `docs/architecture/长期学习操作系统.md`：Learningflow 以 `Context → ChatGPT → Evidence` 为核心数据回路，Teaching Skill 是逻辑协议，MCP/Tools 是长期 Runtime 的受控业务调用层；
 - M0 不引入 LearnerState、BKT、FSRS、知识图谱或复杂诊断；
 - 尚未创建正式前端、服务端、数据库 schema、MCP Server、Worker 或部署环境；
 - FastAPI / React / PostgreSQL 等仍是当前架构建议，尚未通过实现验证固化为运行事实。
@@ -82,6 +83,7 @@ docs/product/真实学习流程.md
 
 ```text
 docs/architecture/系统架构.md
+docs/architecture/长期学习操作系统.md
 docs/architecture/M0最小闭环设计.md
 ```
 
