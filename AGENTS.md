@@ -95,7 +95,7 @@
 - 一个可独立验收、可独立回滚的逻辑单元完成后形成 commit/checkpoint，不把多个已完成事项长期堆在 dirty worktree。
 - checkpoint message 使用 `checkpoint: <阶段说明>`；普通文档/维护变更可用清晰的 Conventional Commit 风格。
 - 不使用 `git reset --hard`、`git clean`、`git stash` 擅自处理用户已有改动。
-- 当前没有远端仓库时只维护本地 `main`；远端创建和 push 作为单独动作，不自行假定 GitHub 可见性或仓库归属。
+- 当前仓库已配置公开远端 `origin=https://github.com/Roc-kit/Learningflow.git`，本地 `main` 跟踪 `origin/main`；远端可见性或归属未来如需改变，必须显式处理，不自行迁移或改名。
 
 ## 8. 当前阶段特有约束
 
@@ -103,12 +103,14 @@ Stage 0 的最高优先级是验证 M0 真实闭环，而不是先搭“看起�
 
 ```text
 教学材料进入 ChatGPT
-→ 3 道网页题
-→ 草稿保存 / 交卷
-→ 结构化结果包
-→ 返回同一教学上下文
+→ Assessment Skill 进入短验证
+→ ChatGPT 一次一题
+→ 孩子用文字或语音直接回答
+→ 可用时通过 MCP 保存结构化 Learning Evidence
 → 老师基于具体答案继续教学
 ```
+
+ChatGPT 是孩子侧主教学界面。Learningflow Web 只在图片、复杂交互、录音、长文本或受控采集等 ChatGPT 本身不适合的场景按需调用；不要为了结构化而把普通问答强制搬到网页。
 
 因此当前不要先做：
 

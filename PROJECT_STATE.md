@@ -33,8 +33,9 @@ Stage 0：正式建仓 + 产品基线 + 最小闭环验证准备
 - 已将两份建仓前设计收口为当前稳定入口：
   - `docs/product/真实学习流程.md`
   - `docs/architecture/系统架构.md`
-- 已完成 M0 最小闭环实施基线：`docs/architecture/M0最小闭环设计.md`；该基线吸收 Tutor MCP、DeepTutor、OpenLingo、Aristotle、LSL 的可复用边界，但不选择其中任何项目作为母项目；
-- M0 已明确只实现结构化网页题、持久草稿/交卷、版本化判分、ResultPack 与 ChatGPT 交接；不在 M0 引入 LearnerState、BKT、FSRS、知识图谱或复杂诊断；
+- 已完成 M0 最小闭环实施基线：`docs/architecture/M0最小闭环设计.md`；当前基线为 ChatGPT-first，不选择任何开源项目作为母项目；
+- 已确认 ChatGPT 是孩子侧主教学界面；Assessment Skill 约束短验证流程，Learningflow MCP/Server 保存长期事实，Web 只按需提供图片、复杂交互、录音等专用能力；
+- M0 不引入 LearnerState、BKT、FSRS、知识图谱或复杂诊断；
 - 尚未创建正式前端、服务端、数据库 schema、MCP Server、Worker 或部署环境；
 - FastAPI / React / PostgreSQL 等仍是当前架构建议，尚未通过实现验证固化为运行事实。
 
@@ -42,8 +43,8 @@ Stage 0：正式建仓 + 产品基线 + 最小闭环验证准备
 
 ### 3.1 真实使用入口
 
-- 孩子主要通过 **ChatGPT App 语音**接受讲解、追问和互动；首版不自建实时语音老师。
-- 服务器网页负责作业照片、AI 追加题、结构化作答、录音等可控交互。
+- 孩子主要通过 **ChatGPT App** 接受讲解、追问、出题和互动，文字与语音都属于主路线；首版不自建实时语音老师。
+- 普通 AI 追加题默认直接在 ChatGPT 中完成；Learningflow Web 只负责作业照片、复杂题型、长文本、录音和其他专用采集。
 - 纸面学校作业继续保留纸笔流程，不要求为了让系统识别而重录整份作业。
 - ChatGPT 对话与网页之间必须有明确交接；在自动工具链未实测前，允许结构化复制/粘贴作为可靠 fallback。
 
@@ -106,11 +107,11 @@ docs/archive/      # 未来确有追溯价值的已失效正式文档
 
 ```text
 1. 按 `docs/architecture/M0最小闭环设计.md` 实现 M0 原型
-   → 结构化 Exercise Contract
-   → 服务端持久 draft / submit
-   → learner-safe projection
-   → ResultPack
-   → MCP + 复制 fallback
+   → ChatGPT 内直接教学与出题
+   → Assessment Skill 一次一题、先答后评
+   → 文字 / 语音作答
+   → MCP 保存结构化 Learning Evidence
+   → Web 仅验证一个按需专用交互场景
 
 2. 用真实四年级英语内容实测单设备与双设备交接
    iPhone / iPad / Android / 笔记本中至少完成代表性组合
@@ -126,6 +127,6 @@ docs/archive/      # 未来确有追溯价值的已失效正式文档
 
 M0 只验证一件事：
 
-> 孩子是否能较少依赖家长，完成“听讲 → 做短练习 → 提交 → 让老师准确取得这次真实答案 → 继续教学”的闭环。
+> 孩子是否能较少依赖家长，始终以 ChatGPT 为主教学入口，完成“听讲 → 直接回答短验证 → 结构化保存关键 Evidence → 老师依据具体答案继续教学”的闭环。
 
-如果这条链路必须频繁人工搬运、容易拿错结果、切换后上下文丢失，则优先改交接体验，不用后端复杂度掩盖产品问题。
+如果普通问答必须频繁切网页、需要家长搬运题目或答案、工具调用破坏语音/文字连续性，则优先改 Skill / MCP 接入体验，不用后端复杂度掩盖产品问题。

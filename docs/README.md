@@ -5,12 +5,12 @@
 ## 产品
 
 - [`product/产品基线.md`](product/产品基线.md)：产品目标、首版范围、角色和不可混淆的业务概念。
-- [`product/真实学习流程.md`](product/真实学习流程.md)：ChatGPT 语音老师 + 网页练习本的真实日常流程与 M0 验证路径。
+- [`product/真实学习流程.md`](product/真实学习流程.md)：ChatGPT 作为主教学入口，Skill / MCP / Web 按需扩展的真实日常流程与 M0 验证路径。
 
 ## 架构
 
 - [`architecture/系统架构.md`](architecture/系统架构.md)：当前完整软件框架工作基线，包括模块、数据、运行流程、M1/M2/M3 建议。
-- [`architecture/M0最小闭环设计.md`](architecture/M0最小闭环设计.md)：Stage 0 当前实施基线；定义三道网页题、持久作答、ResultPack 与 HTTP/MCP 交接，不引入 Learner State 算法。
+- [`architecture/M0最小闭环设计.md`](architecture/M0最小闭环设计.md)：Stage 0 当前实施基线；定义 ChatGPT 直接问答、Assessment Skill、MCP Evidence 保存与可选 Web，不引入 Learner State 算法。
 
 注意：该文件由建仓前 v0.1 设计基线收口而来，其中 FastAPI / React / PostgreSQL / Worker 等尚未全部通过正式实现验证，不应描述成已经存在的运行事实。
 

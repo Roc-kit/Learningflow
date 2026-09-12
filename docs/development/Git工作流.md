@@ -74,6 +74,6 @@ git rebase 对已共享历史改写
 
 ## 6. 远端仓库
 
-当前正式建仓步骤只初始化本地 Git。创建 GitHub 仓库、设置公开/私有、添加 `origin` 和首次 push 作为单独外部动作处理；在没有明确仓库归属和可见性要求前，不自行创建远端。
+当前 GitHub 仓库已创建并公开：`Roc-kit/Learningflow`。本地 `main` 跟踪 `origin/main`，`origin` 使用 `https://github.com/Roc-kit/Learningflow.git`。后续按本文件的 fast-forward 与 checkpoint 规则同步；仓库归属、可见性、远端地址如需改变，作为显式外部变更处理。
 
 远端建立后，GitHub Issue 用于明确 Bug / Feature；开放式产品研究和路线讨论适合 Discussion（工具支持时）。GitHub 对象和本地代码的事实源保持分工：代码、版本化文档从本地 Git 写入，Issue 记录目标、验收和结果。
