@@ -1,6 +1,6 @@
 # Learningflow 当前状态
 
-更新日期：2026-09-12
+更新日期：2026-09-14
 
 本文件只回答四件事：**当前阶段、已经确认什么、还没实现什么、下一步做什么**。历史讨论通过 Git、归档文档和本机 `resources/raw/` 追溯，不在这里堆积聊天流水。
 
@@ -25,7 +25,7 @@ Learningflow
 Stage 0：正式建仓 + 产品基线 + 最小闭环验证准备
 ```
 
-截至 2026-09-12：
+截至 2026-09-14：
 
 - 已完成 Learningflow 本地 Git 仓库初始化；
 - 已建立 `AGENTS.md / PROJECT_STATE.md / DECISIONS.md / docs/` 的文档治理基线；
@@ -36,6 +36,9 @@ Stage 0：正式建仓 + 产品基线 + 最小闭环验证准备
 - 已完成 M0 最小闭环实施基线：`docs/architecture/M0最小闭环设计.md`；当前基线为 ChatGPT-first，不选择任何开源项目作为母项目；
 - 已确认 ChatGPT 是孩子侧主教学界面；Assessment Skill 约束短验证流程，Learningflow MCP/Server 保存长期事实，Web 只按需提供图片、复杂交互、录音等专用能力；
 - 已形成最高层架构定位 `docs/architecture/长期学习操作系统.md`：Learningflow 以 `Context → ChatGPT → Evidence` 为核心数据回路，Teaching Skill 是逻辑协议，MCP/Tools 是长期 Runtime 的受控业务调用层；
+- 已新增探索性文档 `docs/architecture/学习Runtime演进方向.md`：明确当前 `Context + Teaching Protocol + Transcript / Tool Adapter + Evidence Ledger` 仍只是早期技术原型，不视为已经成熟的底座；后续把现有原型、外部项目的方法与真实儿童学习结果放在同一框架持续比较，外部项目既用于补充未实现能力，也用于检查和修改现有 Evidence、Context、Skill、MCP Contract。该文档属于 Working Direction，不代表已经选型；
+- 已完成第一轮 Learning Runtime 源码对照并记录于 `docs/architecture/学习Runtime源码对照.md`：已检出并审计 Engram、open-mastery、knowledge-graph-mcp、edu-agent-skills、open-cognition、Coding-Tutor / Traver 的关键实现；当前优先实验方向为 Evidence Selector 与独立 Assessor 分离、评价来源分级、misconception hypothesis 生命周期、Graph 与 Learner State 分离、Skill routing / escalation、Transcript 驱动的离线 Tutor Evaluation，均仍是 Candidate / Experiment 而非长期 Decision；
+- 已进入第二轮专题研究：`docs/architecture/research/Engram_Evidence与状态推进.md` 深挖 Evidence event 与 State effect；`docs/architecture/research/Misconception与评价边界.md` 区分 Error / Doubt / Weak Area / Misconception，并研究确定性判分、Tutor 自评和独立 Assessor。对 Misconception 持久化、Assessor 启动门槛、儿童 confidence 采集等问题继续保留为待讨论，不写死 Contract；
 - M0 不引入 LearnerState、BKT、FSRS、知识图谱或复杂诊断；
 - 已创建第一个可运行 M0 Learning OS 内核：Python 包、SQLite Stage 0 本地事实库、官方 MCP Python SDK v2 Server；
 - 已实现并验证两个核心 MCP 工具：`get_learning_context` 与 `record_assessment_run`；后者支持 `live / batch_verbatim / summary` 证据语义与幂等写入；

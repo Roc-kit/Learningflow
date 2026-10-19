@@ -11,6 +11,9 @@
 ## 架构
 
 - [`architecture/长期学习操作系统.md`](architecture/长期学习操作系统.md)：最高层架构定位；定义 Context → ChatGPT → Evidence、Teaching Skill、MCP 系统调用层和按需 Activity Adapter。
+- [`architecture/学习Runtime演进方向.md`](architecture/学习Runtime演进方向.md)：探索性的长期演进工作基线；把当前仍不成熟的 Learningflow 原型、外部项目方法与真实学习结果放在同一框架比较，用于持续修正 Evidence、Context、Learner State、Concept Graph、Misconception、Review、Skill 与 Teaching Reflection 等设计。**不是冻结架构或实现承诺。**
+- [`architecture/学习Runtime源码对照.md`](architecture/学习Runtime源码对照.md)：外部项目与 Learningflow 当前实现的源码级问题对照；记录哪些机制值得借、哪些应实验、哪些暂不采用。
+- [`architecture/research/Misconception与评价边界.md`](architecture/research/Misconception与评价边界.md)：第二轮专题研究；区分 Error / Doubt / Weak Area / Misconception，并讨论规则判分、Tutor 自评、独立 Assessor 与多评价来源的边界。未决项保持为待讨论。
 - [`architecture/系统架构.md`](architecture/系统架构.md)：当前完整软件框架工作基线，包括模块、数据、运行流程、M1/M2/M3 建议。
 - [`architecture/M0最小闭环设计.md`](architecture/M0最小闭环设计.md)：Stage 0 当前实施基线；定义 ChatGPT 直接问答、Assessment Skill、MCP Evidence 保存与可选 Web，不引入 Learner State 算法。
 
